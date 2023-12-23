@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: services/validators.js</title>
+    <title>JSDoc: Class: BaseThunderstoreService</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,99 +17,607 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: services/validators.js</h1>
+    <h1 class="page-title">Class: BaseThunderstoreService</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * This module contains commonly used validators.
- *
- * @module
- */
+        <h2><span class="attribs"><span class="type-signature">(abstract) </span></span>BaseThunderstoreService<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>Services which query Thunderstore endpoints should extend BaseThunderstoreService</p></div>
+        
+    
+</header>
 
-import {
-  semver as joiSemver,
-  semverRange as joiSemverRange,
-} from 'joi-extension-semver'
-import joi from 'joi'
-const Joi = joi.extend(joiSemver).extend(joiSemverRange)
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * Joi validator that checks if a value is a number, an integer, and greater than or equal to zero.
- *
- * @type {Joi}
- */
-const optionalNonNegativeInteger = Joi.number().integer().min(0)
+    
+    <h2>Constructor</h2>
+    
 
-export { optionalNonNegativeInteger }
+    
+    <h4 class="name" id="BaseThunderstoreService"><span class="type-signature">(abstract) </span>new BaseThunderstoreService<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
-/**
- * Joi validator that checks if a value is a number, an integer, greater than or equal to zero and the value must be present.
- *
- * @type {Joi}
- */
-export const nonNegativeInteger = optionalNonNegativeInteger.required()
+    
 
-/**
- * Joi validator that checks if a value is a number, an integer and the value must be present.
- *
- * @type {Joi}
- */
-export const anyInteger = Joi.number().integer().required()
 
-/**
- * Joi validator that checks if a value is a valid semantic versioning string and the value must be present.
- *
- * @type {Joi}
- */
-export const semver = Joi.semver().valid().required()
 
-/**
- * Joi validator that checks if a value is a valid semantic versioning range and the value must be present.
- *
- * @type {Joi}
- */
-export const semverRange = Joi.semverRange().valid().required()
 
-/**
- * Joi validator that checks if a value is a string that matches a regular expression.
- * The regular expression matches strings that start with one or more digits, followed by zero or more groups of a dot and one or more digits,
- * followed by an optional suffix that starts with a dash or a plus sign and can contain any characters.
- * This validator can be used to validate properties that can be version strings with an optional suffix or absent.
- * For example, some valid values for this validator are: 1, 1.0, 1.0.0, 1.0.0-beta
- * Some invalid values for this validator are: abc, 1.a, 1.0-, .1
- *
- * @type {Joi}
- */
-export const optionalDottedVersionNClausesWithOptionalSuffix =
-  Joi.string().regex(/^\d+(\.\d+)*([-+].*)?$/)
 
-/**
- * Joi validator that checks if a value is a URL
- *
- * TODO: This accepts URLs with query strings and fragments, which for some purposes should be rejected.
- *
- * @type {Joi}
- */
-export const optionalUrl = Joi.string().uri({ scheme: ['http', 'https'] })
 
-/**
- * Joi validator for a file size we are going to pass to bytes.parse
- * see https://github.com/visionmedia/bytes.js#bytesparsestringnumber-value-numbernull
- *
- * @type {Joi}
- */
-export const fileSize = Joi.string()
-  .regex(/^[0-9]+(b|kb|mb|gb|tb)$/i)
-  .required()
-</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_thunderstore_thunderstore-base.js.html">services/thunderstore/thunderstore-base.js</a>, <a href="services_thunderstore_thunderstore-base.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="fetchPackage"><span class="type-signature">(async) </span>fetchPackage<span class="signature">(pkg)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Fetches package metadata from the Thunderstore API.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pkg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Package specifier</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the package namespace</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>packageName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the package name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_thunderstore_thunderstore-base.js.html">services/thunderstore/thunderstore-base.js</a>, <a href="services_thunderstore_thunderstore-base.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Promise containing validated package information</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="fetchPackageMetrics"><span class="type-signature">(async) </span>fetchPackageMetrics<span class="signature">(pkg)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Fetches package metrics from the Thunderstore API.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pkg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Package specifier</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the package namespace</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>packageName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the package name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_thunderstore_thunderstore-base.js.html">services/thunderstore/thunderstore-base.js</a>, <a href="services_thunderstore_thunderstore-base.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Promise containing validated package metrics</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
